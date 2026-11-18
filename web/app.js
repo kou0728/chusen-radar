@@ -524,6 +524,49 @@
     });
   }
 
+
+  // ---------- 情報提供フォーム ----------
+  function bindPostForm() {
+    const endpoint = state.data.site && state.data.site.form_endpoint;
+    if (!endpoint) return;
+    const btn = $("#formBtn"), sheet = $("#formSheet"), form = $("#postForm"), err = $("#formErr");
+    btn.hidden = false;
+    const sel = $("#fGame");
+    Object.entries(state.data.games).forEach(([, label]) => { const o = document.createElement("option"); o.textContent = label; sel.append(o); });
+    let back = null;
+    const open = () => { back = document.activeElement; err.hidden = true; sheet.hidden = false; document.body.classList.add("locked"); form.store.focus(); };
+    const close = () => { sheet.hidden = true; document.body.classList.remove("locked"); if (back) back.focus(); };
+    btn.addEventListener("click", open);
+    form.addEventListener("input", (e) => e.target.removeAttribute("aria-invalid"));
+    const contact = document.getElementById("contactLink");
+    if (contact) contact.addEventListener("click", (e) => { e.preventDefault(); open(); });
+    sheet.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", close));
+    document.addEventListener("keydown", (e) => { if (!sheet.hidden && e.key === "Escape") close(); });
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      err.hidden = true;
+      const missing = [form.store, form.apply_end].filter((f) => !f.value.trim());
+      [form.store, form.apply_end].forEach((f) => f.setAttribute("aria-invalid", String(!f.value.trim())));
+      if (missing.length) { err.textContent = "店舗名と受付締切を入れてください。"; err.hidden = false; missing[0].focus(); return; }
+      const data = Object.fromEntries(new FormData(form).entries());
+      const submit = $("#formSubmit");
+      submit.disabled = true; submit.textContent = "送信中…";
+      try {
+        const r = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
+        const j = await r.json();
+        if (!j.ok) throw new Error(j.error || "");
+        form.reset();
+        close();
+        toast("送信しました。確認してから掲載します");
+      } catch (x) {
+        err.textContent = x instanceof TypeError || !(x && x.message) ? "送信できませんでした。通信状態を確認して、もう一度送ってください。" : x.message;
+        err.hidden = false;
+      } finally {
+        submit.disabled = false; submit.textContent = "送信する";
+      }
+    });
+  }
+
   // ---------- URLと状態 ----------
   function syncUrl() {
     const p = new URLSearchParams();
@@ -577,6 +620,7 @@
     bind();
     bindStores();
     bindCfg();
+    bindPostForm();
     render();
     // 共有リンクから来たら、その抽選が含まれるタブを開いてスクロール
     if (location.hash.startsWith("#l-")) {

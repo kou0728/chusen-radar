@@ -14,7 +14,7 @@ from pathlib import Path
 
 import yaml
 
-from . import areas, dates, fetch, notify, publish, xsource
+from . import areas, dates, fetch, formsource, notify, publish, xsource
 from .extract import Keywords, Lottery, extract, page_fingerprint
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -125,7 +125,7 @@ def crawl(sources: list[dict], ua: str, kw: Keywords, state: dict, now: datetime
     return found, changed
 
 
-def merge(state: dict, auto: list[dict], manual: list[dict], now: datetime) -> list[dict]:
+def merge(state: dict, auto: list[dict], manual: list[dict], now: datetime, form_ok: bool = False) -> list[dict]:
     """新しく見つかったものを追加。手動登録は自動取得より優先。古いものは消す。"""
     items: dict = state["items"]
     new_ids = []
@@ -136,7 +136,7 @@ def merge(state: dict, auto: list[dict], manual: list[dict], now: datetime) -> l
         if cur is None:
             d["first_seen"] = stamp
             new_ids.append(d["id"])
-        elif cur.get("origin") == "manual" and d.get("origin") == "auto":
+        elif cur.get("origin") in ("manual", "form") and d.get("origin") == "auto":
             cur["last_seen"] = stamp
             continue
         else:
@@ -145,7 +145,8 @@ def merge(state: dict, auto: list[dict], manual: list[dict], now: datetime) -> l
         items[d["id"]] = d
     # 手動登録から消された／hideにされたものは削除
     manual_ids = {d["id"] for d in manual}
-    for k in [k for k, v in items.items() if v.get("origin") == "manual" and k not in manual_ids]:
+    gone = ("manual", "form") if form_ok else ("manual",)  # フォームが読めなかった回は、フォーム分を消さない
+    for k in [k for k, v in items.items() if v.get("origin") in gone and k not in manual_ids]:
         del items[k]
     cutoff = now - timedelta(days=KEEP_DAYS)
     for k in [k for k, v in items.items() if v.get("apply_end") and datetime.fromisoformat(v["apply_end"]) < cutoff]:
@@ -161,7 +162,14 @@ def run(offline: bool = False, now: datetime | None = None) -> int:
     state = load_state()
     auto, changed = ([], []) if offline else crawl(srcs["sources"], ua, kw, state, now)
     manual = manual_items(kw, now)
-    new = merge(state, auto, manual, now)
+    endpoint = (load_yaml("site.yaml") or {}).get("form_endpoint")
+    form_ok = False
+    if endpoint and not offline:
+        form, st = formsource.collect(endpoint, kw)
+        form_ok = st["ok"]
+        state["sources"]["form"] = {"name": "情報提供フォーム（掲載OKの投稿）", "url": "", "checked": dates.iso(now), **st}
+        manual = manual + form
+    new = merge(state, auto, manual, now, form_ok=form_ok)
     state["updated"] = dates.iso(now)
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps(state, ensure_ascii=False, indent=1), encoding="utf-8")

@@ -56,7 +56,7 @@ def write_site(state: dict, kw: Keywords, now: datetime):
     games = {gid: g["label"] for gid, g in kw.games.items()}
     sources = [{"id": k, **v} for k, v in state.get("sources", {}).items()]
     payload = {"updated": state.get("updated"), "games": games, "areas": areas.labels(), "items": items, "sources": sources,
-               "site": {k: site.get(k) for k in ("name", "url", "x_account", "contact_url", "amazon_tag")}}
+               "site": {k: site.get(k) for k in ("name", "url", "x_account", "contact_url", "amazon_tag", "form_endpoint")}}
 
     if OUT.exists():
         shutil.rmtree(OUT)

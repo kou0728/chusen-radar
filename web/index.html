@@ -51,6 +51,7 @@
       </div>
       <div class="row3">
         <button type="button" class="btn store-btn" id="storeBtn" aria-haspopup="dialog">表示設定<span id="storeCount"></span></button>
+        <button type="button" class="btn" id="formBtn" aria-haspopup="dialog" hidden>抽選情報を送る</button>
         <label class="hide-applied"><input type="checkbox" id="hideApplied"> 応募済みにしたものを隠す</label>
       </div>
     </div>
@@ -100,6 +101,41 @@
     <footer class="sheet-foot">
       <span id="storeSel"></span>
       <button type="button" class="btn primary" data-close>この設定で表示する</button>
+    </footer>
+  </section>
+</div>
+
+<div class="sheet" id="formSheet" hidden>
+  <div class="sheet-backdrop" data-close></div>
+  <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+    <header class="sheet-head">
+      <h2 id="formTitle">抽選情報を送る</h2>
+      <button type="button" class="sheet-x" data-close aria-label="閉じる">閉じる</button>
+    </header>
+    <form class="sheet-scroll post-form" id="postForm" novalidate>
+      <p class="sheet-note">見つけた抽選を教えてください。運営が内容を確認してから掲載します。</p>
+      <label class="f"><span>店舗名<b>必須</b></span><input name="store" required maxlength="60" placeholder="例：カードラボ 所沢店"></label>
+      <div class="f2">
+        <label class="f"><span>タイトル</span><select name="game" id="fGame"></select></label>
+        <label class="f"><span>エリア</span><select name="pref">
+          <option>東京都</option><option>千葉県</option><option>埼玉県</option><option>神奈川県</option><option>通販・全国</option><option>その他の地域</option>
+        </select></label>
+      </div>
+      <label class="f"><span>商品名</span><input name="product" maxlength="60" placeholder="例：ハドウシーカー"></label>
+      <label class="f"><span>応募方法</span><select name="form"><option value="web">WEB</option><option value="app">アプリ</option><option value="store" selected>店頭</option><option value="x">X</option></select></label>
+      <div class="f2 dates2">
+        <label class="f"><span>受付開始</span><input type="datetime-local" name="apply_start"></label>
+        <label class="f"><span>受付締切<b>必須</b></span><input type="datetime-local" name="apply_end" required></label>
+      </div>
+      <label class="f"><span>当選発表</span><input type="date" name="announce"></label>
+      <label class="f"><span>応募ページ・告知ポストのURL</span><input type="url" name="url" maxlength="300" placeholder="https://"></label>
+      <label class="f"><span>メモ（応募条件など）</span><textarea name="note" rows="3" maxlength="300"></textarea></label>
+      <label class="hp" aria-hidden="true">この欄は空のままにしてください<input name="website" tabindex="-1" autocomplete="off"></label>
+      <p class="form-err" id="formErr" role="alert" hidden></p>
+    </form>
+    <footer class="sheet-foot">
+      <span>個人情報は書かないでください</span>
+      <button type="submit" form="postForm" class="btn primary" id="formSubmit">送信する</button>
     </footer>
   </section>
 </div>
