@@ -1,0 +1,195 @@
+# 巡回する「大元」のページ一覧。
+#
+# type:
+#   page    … ページを取得して抽選情報を自動抽出（複数件あってもOK）
+#   watch   … 抽出はせず、ページ内容が変わったら「更新あり」として通知だけする
+#             （ログイン必須・画像だけの告知など、自動抽出が難しいページ向け）
+#   x_user  … ショップのXアカウントの投稿から抽選告知を拾う（X APIのトークンが必要）
+# render: true … JavaScriptで描画されるページ。ヘッドレスブラウザで開いてから読む
+# game / form / store … 抽出結果に付ける既定値（ページ内から判定できない時に使う）
+#
+# 1件追加するだけで巡回対象になります。止めたい時は enabled: false。
+
+defaults:
+  interval_minutes: 30
+  user_agent: "ChusenRadarBot/1.0 (+https://kou0728.github.io/chusen-radar/about.html)"
+
+sources:
+  # --- LivePocket（各ショップの店頭受け取り抽選の応募ページが集まる場所） ---
+  # キーワードで検索 → 抽選ページを開いて受付期間・発表日・店舗の都道府県を読み取ります。
+  - id: livepocket
+    name: LivePocket（各ショップの抽選）
+    type: livepocket
+    max_pages: 3        # キーワードごとに何ページ目まで見るか
+    max_details: 60     # 1回の巡回で新しく開く抽選ページの上限
+    keywords:
+      - ポケモンカード
+      - ワンピースカード
+      - 遊戯王
+      - デュエル・マスターズ
+      - ドラゴンボール フュージョンワールド
+      - ユニオンアリーナ
+      - ガンダムカードゲーム
+      - デジモンカード
+      - ホロライブ カード
+      - ヴァイスシュヴァルツ
+      - ヴァンガード
+      - バトルスピリッツ
+      - ロルカナ
+
+  # --- 公式・大手通販 ---
+  - id: pokemoncenter-lottery
+    name: ポケモンセンターオンライン
+    type: page
+    url: https://www.pokemoncenter-online.com/lottery/apply.html
+    render: true
+    game: pokemon
+    form: web
+
+  - id: yodobashi-limited
+    name: ヨドバシ・ドット・コム
+    type: page
+    url: https://limited.yodobashi.com/entry/shared/
+    form: web
+
+  - id: aeon-style-online
+    name: イオンスタイルオンライン
+    type: page
+    url: https://aeonretail.com/Page/k-lottery_pokemon_com.aspx
+    render: true
+    form: web
+
+  - id: seven-net
+    name: セブンネットショッピング
+    type: page
+    url: https://7net.omni7.jp/general/027016/fair-hobby-pokemoncardgameo.html
+    form: web
+
+  - id: dorasuta
+    name: ドラゴンスター
+    type: page
+    url: https://dorasuta.membercard.jp/lottery
+    render: true
+    form: web
+
+  - id: geo-online-news
+    name: ゲオオンライン
+    type: page
+    url: https://geo-online.co.jp/news/
+    form: web
+
+  - id: edion-cp
+    name: エディオン
+    type: watch
+    url: https://edion-cp.com/
+    form: web
+
+  - id: onepiece-official-news
+    name: ONE PIECEカードゲーム公式
+    type: page
+    url: https://www.onepiece-cardgame.com/news/
+    game: onepiece
+    form: web
+
+  - id: pokemon-card-official-news
+    name: ポケモンカードゲーム公式
+    type: watch
+    url: https://www.pokemon-card.com/info/
+    game: pokemon
+
+  # --- タイトル別の公式（メーカー直販・公式ニュース） ---
+  # ※ URLは公開後に「このサイトについて → 情報源と巡回状況」で取得できているか確認してください
+  - id: onepiece-official-shop
+    name: ONE PIECEカードゲーム公式
+    type: watch
+    url: https://www.onepiece-cardgame.com/
+    game: onepiece
+
+  - id: yugioh-official-info
+    name: 遊戯王OCG公式
+    type: page
+    url: https://www.yugioh-card.com/japan/information/
+    game: yugioh
+    form: web
+
+  - id: konamistyle
+    name: コナミスタイル
+    type: watch
+    url: https://www.konamistyle.jp/
+    game: yugioh
+    form: web
+
+  - id: duelmasters-official
+    name: デュエル・マスターズ公式
+    type: watch
+    url: https://dm.takaratomy.co.jp/
+    game: duelmasters
+
+  - id: digimon-official-news
+    name: デジモンカードゲーム公式
+    type: page
+    url: https://digimoncard.com/news/
+    game: digimon
+    form: web
+
+  - id: gundam-gcg-news
+    name: ガンダムカードゲーム公式
+    type: page
+    url: https://www.gundam-gcg.com/jp/news/
+    game: gundam
+    form: web
+
+  - id: unionarena-news
+    name: ユニオンアリーナ公式
+    type: page
+    url: https://www.unionarena-tcg.com/jp/news/
+    game: unionarena
+    form: web
+
+  - id: dbfw-news
+    name: ドラゴンボール フュージョンワールド公式
+    type: page
+    url: https://www.dbs-cardgame.com/fw/jp/news/
+    game: dragonball
+    form: web
+
+  - id: hololive-ocg-news
+    name: ホロカ公式
+    type: page
+    url: https://hololive-official-cardgame.com/news/
+    game: hololive
+    form: web
+
+  - id: ws-news
+    name: ヴァイスシュヴァルツ公式
+    type: page
+    url: https://ws-tcg.com/news/
+    game: weiss
+    form: web
+
+  - id: p-bandai-top
+    name: プレミアムバンダイ
+    type: watch
+    url: https://p-bandai.jp/
+    form: web
+
+  # --- ショップのX（X APIのBearer Tokenを設定すると有効になります） ---
+  # pref を書いておくと、そのお店の抽選にエリアが付きます
+  - { id: x-jtc-kichijoji, name: Japan TCG Center 吉祥寺駅北口店, type: x_user, account: JTC_kichijoji, form: store, pref: 東京都 }
+  - { id: x-mmk-matsudo, name: 桃太郎王国 松戸五香店, type: x_user, account: mmk_matsudogoko, form: store, pref: 千葉県 }
+  - { id: x-bunkyodo-urayasu, name: 文教堂 浦安西友店, type: x_user, account: bunurayasu_TCG, form: store, pref: 千葉県 }
+  - { id: x-tsutaya-kitasenju, name: TSUTAYA Trading Card 北千住, type: x_user, account: TSUTAYA_Card_ks, form: store, pref: 東京都 }
+  - { id: x-cardbox-ikebukuro, name: カードボックス 池袋店, type: x_user, account: cbikebukuro, form: store, pref: 東京都 }
+  - { id: x-cardlabo-tsudanuma, name: カードラボ 津田沼店, type: x_user, account: Numa_labo27, form: store, pref: 千葉県 }
+  - { id: x-cardlabo-tokorozawa, name: カードラボ 所沢店, type: x_user, account: tokorozawa_clab, form: store, pref: 埼玉県 }
+  - { id: x-ds-ecommerce, name: ドラゴンスター通販, type: x_user, account: ds_ecommerce, form: web }
+  - { id: x-surugaya, name: 駿河屋 通販, type: x_user, account: surugaya_toreka, form: web }
+  - { id: x-yellow-sub, name: イエローサブマリン, type: x_user, account: YS_INFO, form: store }
+  - { id: x-bic-akiba, name: ビックカメラ AKIBA店, type: x_user, account: bic_akiba, form: store, pref: 東京都 }
+  - { id: x-cardbox, name: カードボックス 日本橋店, type: x_user, account: Cardbox_Japan, form: store }
+  - { id: x-pcg-lounge, name: ポケモンカードラウンジ, type: x_user, account: PCGL_Shibuya, form: store, pref: 東京都 }
+  - { id: x-hareruya2, name: 晴れる屋2, type: x_user, account: hareruya2pokeca, form: store }
+  - { id: x-toreca-lounge, name: トレカラウンジ 秋葉原本店, type: x_user, account: torecalounge, form: store, pref: 東京都 }
+  - { id: x-cardlabo-ikebukuro, name: カードラボ 池袋店, type: x_user, account: ikebukuro_labo, form: store, pref: 東京都 }
+  - { id: x-mintgames-ikb, name: MINT GAMES 池袋店, type: x_user, account: MintGames_IKB, form: store, pref: 東京都 }
+  - { id: x-bookoff-akb, name: ブックオフ 秋葉原駅前店, type: x_user, account: bookoffakbT, form: store, pref: 東京都 }

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>このサイトについて｜{{NAME}}</title>
+<meta name="description" content="{{NAME}}の掲載ルール、情報源、免責事項。">
+<link rel="canonical" href="{{URL}}about.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&family=Shippori+Mincho:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <a class="logo" href="./">
+    <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2.5" y="2.5" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="10" y="10" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M16 16 L29 3" stroke="currentColor" stroke-width="2.5"/><rect x="13.5" y="13.5" width="5" height="5" fill="currentColor"/></svg>
+    <span>{{NAME}}</span>
+  </a>
+  <p class="updated">{{UPDATED}} 更新</p>
+</header>
+<main>
+  <section class="intro"><h1>このサイトについて</h1></section>
+  <div class="doc">
+    <h2>どうやって集めているか</h2>
+    <p>ポケモンセンターオンライン、プレミアムバンダイ、家電量販店、カードショップの公式ページと、各ショップが抽選の受付に使っているLivePocketを30分おきに確認し、抽選の受付期間・当選発表日・応募ページを読み取って締切順に並べています。アプリ限定や店頭QRの抽選は、運営が告知を確認して手で登録しています。</p>
+    <p>掲載しているのは期間と応募先の案内だけです。商品画像や告知文はそのまま転載せず、詳しい条件は必ずリンク先の公式ページで確認してください。</p>
+
+    <h2>見方</h2>
+    <ul>
+      <li>左の数字は、締切（または受付開始・当選発表）までの残り時間です。24時間を切ると赤になります。</li>
+      <li>「応募済み」にチェックすると、この端末の中だけで記録されます。サーバーには送られません。</li>
+      <li>「カレンダーに追加」で締切3時間前の通知つき予定を入れられます。</li>
+      <li>「エリア」で東京・千葉・埼玉などを選ぶと、その地域のお店と通販だけに絞れます（複数選べます）。</li>
+      <li>「表示設定」で、一覧に出すタイトルとお店を選べます。選んだ内容はこの端末に保存されます。</li>
+    </ul>
+
+    <h2>免責事項</h2>
+    <p>掲載内容は自動取得のため、誤りや変更の反映遅れがあり得ます。応募・購入の判断は各ショップの公式情報に従ってください。本サイトの情報によって生じた損害について、運営は責任を負いません。本サイトは各メーカー・ショップとは関係のない個人運営のサイトです。</p>
+    <p>掲載をやめてほしいショップの方は、下の連絡先からお知らせください。すぐに巡回対象から外します。</p>
+
+    <h2 id="sources">情報源と巡回状況</h2>
+    <table class="src-table">
+      <thead><tr><th>情報源</th><th>最終確認</th><th>状態</th></tr></thead>
+      <tbody id="srcRows"><tr><td colspan="3">巡回が始まると表示されます。</td></tr></tbody>
+    </table>
+
+    <h2 id="contact">情報提供・お問い合わせ</h2>
+    <p id="contactText">抽選の情報提供・掲載停止のご依頼は、運営のXアカウントまでお寄せください。</p>
+    <p>運営：{{OPERATOR}}</p>
+  </div>
+</main>
+<footer class="foot"><nav><a href="./">抽選一覧へ戻る</a><a href="feed.xml">新着RSS</a></nav><p class="copy">© {{OPERATOR}}</p></footer>
+<script>
+window.__DATA__ = /*DATA*/null;
+(function () {
+  var data = window.__DATA__; if (!data) return;
+  var site = data.site || {};
+  var ct = document.getElementById("contactText");
+  if (site.contact_url) { ct.innerHTML = '抽選の情報提供・掲載停止のご依頼は<a></a>からお寄せください。'; var a = ct.querySelector("a"); a.href = site.contact_url; a.textContent = "こちらのフォーム"; }
+  else if (site.x_account) { ct.innerHTML = '抽選の情報提供・掲載停止のご依頼は<a></a>までお寄せください。'; var b = ct.querySelector("a"); b.href = "https://x.com/" + site.x_account; b.textContent = "@" + site.x_account; }
+  var rows = (data.sources || []);
+  if (!rows.length) return;
+  var tb = document.getElementById("srcRows"); tb.textContent = "";
+  rows.forEach(function (s) {
+    var tr = document.createElement("tr");
+    var td1 = document.createElement("td"), a = document.createElement("a"); a.href = s.url; a.textContent = s.name; a.rel = "nofollow noopener"; td1.append(a);
+    var td2 = document.createElement("td"); if (s.checked) { var t = new Date(s.checked); td2.textContent = (t.getMonth() + 1) + "/" + t.getDate() + " " + String(t.getHours()).padStart(2, "0") + ":" + String(t.getMinutes()).padStart(2, "0"); }
+    var td3 = document.createElement("td");
+    if (s.ok === true) { td3.className = "ok"; td3.textContent = "取得できています" + (s.found != null ? "（" + s.found + "件）" : ""); }
+    else if (s.ok === false) { td3.className = "ng"; td3.textContent = "取得できませんでした：" + (s.note || ""); }
+    else { td3.className = "skip"; td3.textContent = s.note || "停止中"; }
+    tr.append(td1, td2, td3); tb.append(tr);
+  });
+})();
+</script>
+</body>
+</html>

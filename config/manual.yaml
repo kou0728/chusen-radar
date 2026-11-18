@@ -1,0 +1,92 @@
+# 手動で登録する抽選。
+# アプリ限定・店頭QRなど、Webから自動で拾えない抽選はここに書きます。
+# GitHubの画面からこのファイルを編集して保存すれば、次の自動更新で反映されます。
+#
+# 書き方（apply 以外は省略OK）:
+#   - store: ショップ名
+#     product: 商品名（keywords.yaml の products と同じ表記だと自動でまとまります）
+#     game: pokemon / onepiece / yugioh / duelmasters / dragonball / unionarena / gundam / weiss
+#     form: web / app / store / x
+#     apply: "11/13 10:00〜11/18 23:59"   ← 受付期間。年は省略可
+#     announce: "11/29 10:00"            ← 当選発表
+#     purchase: "11/28〜11/30"           ← 購入期間
+#     url: 応募ページ（ショップ公式のページ、なければ告知ポスト）
+#     conditions: [条件1, 条件2]
+#     pref: 東京都                         ← 店舗の都道府県（エリア絞り込みに使う。店名に地名があれば省略可）
+#     area: national                      ← 全国チェーン一斉の抽選なら national、地域限定なら other
+#     hide: true                          ← 掲載をやめたい時
+#
+# 以下は公開時点（2026年11月17〜18日）の初期データです。
+
+- store: Amazon
+  product: ハドウシーカー
+  game: pokemon
+  form: web
+  ongoing: true
+  title: 招待リクエスト受付中
+  url: https://www.amazon.co.jp/dp/B0H4PQ6LR5
+  conditions: [招待リクエストを送り、招待メールが届いた人だけ購入可]
+
+- { store: 楽天ブックス, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/13 10:00〜11/18 23:59", announce: "11/29 10:00", url: "https://books.rakuten.co.jp/rb/18664603/" }
+- { store: コジマ, product: ハドウシーカー, game: pokemon, form: app, apply: "2026/11/14〜11/20", announce: "11/27 0:00", conditions: [コジマ公式アプリから応募] }
+- { store: キデイランド 原宿店, product: ハドウシーカー, game: pokemon, form: store, pref: 東京都, apply: "2026/11/16 10:00〜11/18 23:59", announce: "11/25 20:00", purchase: "11/27〜11/29", url: "https://livepocket.jp/e/0d5mm", conditions: [LivePocketでWEB応募・店頭で受け取り] }
+- { store: キデイランド 吉祥寺店, product: ハドウシーカー, game: pokemon, form: store, pref: 東京都, apply: "2026/11/16 10:00〜11/18 23:59", announce: "11/25 18:00", purchase: "11/27〜11/29", url: "https://livepocket.jp/e/4ywaz", conditions: [LivePocketでWEB応募・店頭で受け取り] }
+- { store: キデイランド 光が丘店, product: ハドウシーカー, game: pokemon, form: store, pref: 東京都, apply: "2026/11/16 10:00〜11/18 23:59", announce: "11/25 18:00", purchase: "11/27〜11/29", url: "https://livepocket.jp/e/zy35l", conditions: [LivePocketでWEB応募・店頭で受け取り] }
+- { store: キデイランド 二子玉川店, product: ハドウシーカー, game: pokemon, form: store, pref: 東京都, apply: "2026/11/16 10:00〜11/18 23:59", announce: "11/25 18:00", purchase: "11/27〜11/29", url: "https://livepocket.jp/e/haqf_", conditions: [LivePocketでWEB応募・店頭で受け取り] }
+- { store: キデイランド 浦和美園店, product: ハドウシーカー, game: pokemon, form: store, pref: 埼玉県, apply: "2026/11/16 10:00〜11/18 23:59", announce: "11/25 18:00", purchase: "11/27〜11/29", url: "https://livepocket.jp/e/zvv1t", conditions: [LivePocketでWEB応募・店頭で受け取り, 来店時に顔写真付き身分証が必要] }
+- { store: キデイランド ららぽーと富士見店, product: ハドウシーカー, game: pokemon, form: store, pref: 埼玉県, apply: "2026/11/16 10:00〜11/18 23:59", announce: "11/25 18:00", purchase: "11/27〜11/29", url: "https://livepocket.jp/e/bt6dj", conditions: [LivePocketでWEB応募・店頭で受け取り] }
+- { store: キデイランド（関東以外の各店）, product: ハドウシーカー, game: pokemon, form: store, area: other, apply: "2026/11/16 10:00〜11/18 23:59", announce: "11/25 18:00", url: "https://livepocket.jp/p/hpmzs", conditions: [LivePocketでWEB応募・店頭で受け取り] }
+- { store: CARDWINGS 八王子駅前店, product: ハドウシーカー, game: pokemon, form: store, pref: 東京都, apply: "2026/11/14 13:00〜11/23 23:59", announce: "11/24", purchase: "11/27〜11/28", url: "https://livepocket.jp/e/l9z_p", conditions: [LivePocketの会員登録が必要, 購入時に身分証で本人確認] }
+- { store: 文教堂書店 南大沢店, product: ハドウシーカー, game: pokemon, form: store, pref: 東京都, apply: "2026/11/16 13:00〜11/22 21:00", announce: "11/24", purchase: "11/27〜11/29", url: "https://livepocket.jp/e/inr0b", conditions: [店頭で配布するシリアルコードが必要, 1人1回まで] }
+- { store: GOOD GAME, product: ハドウシーカー, game: pokemon, form: store, pref: 千葉県, apply: "2026/11/16 19:30〜11/23 23:59", announce: "11/25", purchase: "11/27", url: "https://livepocket.jp/e/sd_2-", conditions: [11/1以降に同店の通販サイトで購入履歴がある人が対象] }
+- { store: ドラゴンスター通販, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/16〜11/18", announce: "11/19", url: "https://x.com/ds_ecommerce/status/2122313789630550326" }
+- { store: ブックオフプラス 仙台南バイパス店, pref: 宮城県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/16 10:00〜11/19 21:00", announce: "11/26 19:00", url: "https://x.com/bop_sennan_TH/status/2122132784882024869" }
+- { store: トレカラウンジ 秋葉原本店, product: ハドウシーカー, game: pokemon, form: store, pref: 東京都, apply: "2026/11/17 10:00〜11/19 23:59", announce: "11/24", purchase: "11/27〜11/29", url: "https://livepocket.jp/e/1f0ih", conditions: [本店・別館買取センターのどちらか1店舗のみ応募可, マイナンバーカード記載の氏名で申込, 1人1BOXまで] }
+- { store: TSUTAYA BOOKSTORE 福島南店, pref: 福島県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/17〜11/19", announce: "11/22", url: "https://x.com/tsutaya_t0946/status/2122464731722084806" }
+- { store: 晴れる屋2, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/16〜11/20 15:00", url: "https://x.com/hareruya2pokeca/status/2118270847312163297" }
+- { store: カードラボ 川崎店, pref: 神奈川県, product: ハドウシーカー, game: pokemon, form: store, apply: "〜2026/11/20", url: "https://x.com/kawasaki_cl/status/2117923897819766798" }
+- { store: 文教堂 浦安西友店, pref: 千葉県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/16 10:00〜11/22 20:30", announce: "11/23", url: "https://x.com/bunurayasu_TCG/status/2122132550499922306" }
+- { store: TSUTAYA 積文館書店 シュロアモール店, pref: 福岡県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/16 10:00〜11/22 21:45", announce: "11/25", url: "https://x.com/suroy_toreka/status/2122132725398454506" }
+- { store: カードボックス SuperKaBoS 敦賀店, pref: 福井県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/16 10:00〜11/22 22:00", announce: "11/25", url: "https://x.com/Cardbox_Tsuruga/status/2122133801426137138" }
+- { store: 駿河屋 通販, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/5 12:00〜11/22 23:59", announce: "11/23", url: "https://x.com/surugaya_toreka/status/2118176861356487145" }
+- { store: トレカチャンピオン, product: ハドウシーカー, game: pokemon, form: x, apply: "2026/11/16〜11/22", announce: "11/25", conditions: [XのDMで応募] }
+- { store: ゆうぷら 二本松店, pref: 福島県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/16〜11/22", announce: "11/26 18:00", url: "https://x.com/u_pura_nihonmat/status/2121948689933754640" }
+- { store: ブックオフ イトーヨーカドー溝ノ口店, pref: 神奈川県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/17〜11/23 17:00", announce: "11/24", url: "https://x.com/bo_mizonokuchi/status/2122525142718775582" }
+- { store: TSUTAYA Trading Card 戸塚店, pref: 神奈川県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/16〜11/23 21:00", announce: "11/24", url: "https://x.com/TSUTAYA_Card_tk/status/2122140094438035696" }
+- { store: ブックオフ 秋葉原駅前店, pref: 東京都, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/10/30〜11/24 17:00", announce: "11/26", url: "https://x.com/bookoffakbT/status/2115754434823344511" }
+- { store: MINT GAMES 池袋店, pref: 東京都, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/8〜11/24 21:00", announce: "11/25", url: "https://x.com/MintGames_IKB/status/2119349808729391259" }
+
+# --- ワンピースカード 神の支配【OP-18】（11/21発売） ---
+- { store: 楽天ブックス, product: 神の支配, game: onepiece, form: web, apply: "〜2026/11/18 23:59", purchase: "11/29〜12/3" }
+- { store: トレカSHOPあんりみてっど, product: 神の支配, game: onepiece, form: x, apply: "2026/9/9〜11/20 23:59", conditions: [SNSから応募] }
+
+# --- 受付終了・当選発表待ち ---
+- { store: 麦わらストア, product: 神の支配, game: onepiece, form: web, apply: "〜2026/11/15 23:59", announce: "11/18", purchase: "11/21〜11/28", conditions: [当選者は店頭受け取り] }
+- { store: ONE PIECEカードゲーム 公式ショップ, product: 神の支配, game: onepiece, form: web, apply: "〜2026/11/15 23:00", purchase: "11/21〜11/27", conditions: [当選者は店頭受け取り] }
+- { store: プレミアムバンダイ, product: 神の支配, game: onepiece, form: web, apply: "2026/11/6 12:00〜11/12 23:00", conditions: [1人1BOXまで, 当選発表は11月中・12月発送予定] }
+- { store: ビックカメラ, area: national, product: 神の支配, game: onepiece, form: store, apply: "〜2026/11/1 23:59", announce: "11/20", purchase: "11/20〜11/26", conditions: [店舗または公式Xで当選発表] }
+- { store: ゲオ, product: 神の支配, game: onepiece, form: app, apply: "2026/11/2 11:00〜11/5 17:59", announce: "11/19", purchase: "11/21〜11/22" }
+- { store: キッズリパブリック, product: 神の支配, game: onepiece, form: app, apply: "2026/10/30 11:00〜11/5 19:59", announce: "11/20 12:00" }
+- { store: イトーヨーカドー・アリオ, area: national, product: 神の支配, game: onepiece, form: store, apply: "2026/10/30〜11/1", purchase: "11/21〜11/23", conditions: [店頭のQRコードからLivePocketで応募] }
+- { store: イオン九州, area: other, product: 神の支配, game: onepiece, form: app, apply: "2026/10/24〜11/1 23:59", conditions: [iAEONアプリから応募・店舗受け取り] }
+- { store: 竜星のPAO, product: 神の支配, game: onepiece, form: web, apply: "2026/10/30 11:50〜11/1 23:59", conditions: [当選者は店舗受け取り] }
+
+# --- ポケカ ハドウシーカー ---
+- { store: 桃太郎王国 松戸五香店, pref: 千葉県, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/16 11:00〜11/17 20:00", announce: "11/19", url: "https://x.com/mmk_matsudogoko/status/2122141931929235739" }
+- { store: WonderGOO・新星堂, area: national, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/14 10:00〜11/16 20:59", announce: "11/19 12:00", conditions: [店頭のQRコードから応募] }
+- { store: ポケモンカードラウンジ, pref: 東京都, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/6 10:00〜11/8 23:59", announce: "11/20 18:00", url: "https://x.com/PCGL_Shibuya/status/2118511432715174391" }
+- { store: ヤマダデンキ, product: ハドウシーカー, game: pokemon, form: app, apply: "2026/11/2 23:00〜11/4 23:59", announce: "11/24 12:00", conditions: [ヤマダデジタル会員アプリから応募] }
+- { store: 三洋堂書店, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/11/4〜11/15 23:59", announce: "11/25", url: "https://x.com/GOGO_SANYODO2/status/2117768791979692170" }
+- { store: ビックカメラ, area: national, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/10/30 10:00〜11/1 21:00", announce: "11/26" }
+- { store: イエローサブマリン, area: national, product: ハドウシーカー, game: pokemon, form: store, apply: "2026/10/25 10:00〜10/28 20:00", announce: "11/26", url: "https://x.com/YS_INFO/status/2114132257279737936" }
+- { store: イオン九州, area: other, product: ハドウシーカー, game: pokemon, form: app, apply: "2026/10/31〜11/8 23:59", announce: "11/26 12:00" }
+- { store: キッズリパブリック, product: ハドウシーカー, game: pokemon, form: app, apply: "2026/11/6〜11/12 19:59", announce: "11/26 12:00" }
+- { store: 平和堂, area: other, product: ハドウシーカー, game: pokemon, form: app, apply: "2026/11/14 午前中〜11/15 23:59", announce: "11/26 午前中", conditions: [平和堂アプリから応募] }
+- { store: エディオン, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/13 10:00〜11/15 23:59", announce: "11/26", url: "https://edion-cp.com/poke112701" }
+- { store: トレカキャピタル, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/13 10:00〜11/15 23:59", announce: "11/26", url: "https://edion-cp.com/poke112702" }
+- { store: セブンネットショッピング, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/4 17:00〜11/9 23:59", announce: "11/27 19:00", url: "https://7net.omni7.jp/general/027016/fair-hobby-pokemoncardgameo.html" }
+- { store: ポケモンセンターオンライン（追加抽選）, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/6 16:00〜11/10 16:59", announce: "11/17 15:00", purchase: "〜11/24 16:59", url: "https://www.pokemoncenter-online.com/lottery/apply.html", conditions: [プレイヤーズクラブ本人認証済み枠／未認証枠の2枠, 認証済み枠はメールアドレスの一致が必要] }
+- { store: ヨドバシ・ドット・コム, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/10 11:00〜11/11 10:59", announce: "11/11 18:00", url: "https://limited.yodobashi.com/entry/shared/" }
+- { store: ドラゴンスター, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/8〜11/12 23:59", announce: "11/17", url: "https://dorasuta.membercard.jp/lottery" }
+- { store: ファミマオンライン, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/11/4 10:00〜11/9 23:59", announce: "11/11", url: "https://famima-online.family.co.jp/item?itemCode=100163657179608640" }
+- { store: イオンスタイルオンライン, product: ハドウシーカー, game: pokemon, form: web, apply: "2026/10/27 11:00〜10/28 23:59", announce: "11/9 12:00", url: "https://aeonretail.com/Page/k-lottery_pokemon_com.aspx" }

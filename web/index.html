@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{NAME}}｜トレカ抽選情報まとめ（ポケカ・ワンピース）</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<link rel="canonical" href="{{URL}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{NAME}}｜いま応募できるトレカ抽選 {{OPEN_COUNT}}件">
+<meta property="og:description" content="{{DESCRIPTION}}">
+<meta property="og:url" content="{{URL}}">
+<meta property="og:image" content="{{URL}}ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="{{NAME}} 新着" href="feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&family=Shippori+Mincho:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <a class="logo" href="./" aria-label="{{NAME}} トップ">
+    <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="2.5" y="2.5" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="10" y="10" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M16 16 L29 3" stroke="currentColor" stroke-width="2.5"/><rect x="13.5" y="13.5" width="5" height="5" fill="currentColor"/></svg>
+    <span>{{NAME}}</span>
+  </a>
+  <p class="updated">{{UPDATED}} 更新</p>
+</header>
+
+<main>
+  <section class="intro">
+    <h1>いま応募できる<br>トレカの抽選</h1>
+    <p class="summary" id="summary" aria-live="polite">{{TAGLINE}}</p>
+  </section>
+
+  <div class="controls" id="controls">
+    <div class="tabs" role="tablist" aria-label="受付状況">
+      <button role="tab" data-status="open" aria-selected="true">受付中<b></b></button>
+      <button role="tab" data-status="upcoming" aria-selected="false">開始前<b></b></button>
+      <button role="tab" data-status="waiting" aria-selected="false">発表待ち<b></b></button>
+      <button role="tab" data-status="closed" aria-selected="false">終了<b></b></button>
+    </div>
+    <div class="filters">
+      <div class="chips area" id="areaChips" aria-label="エリアで絞り込む（複数選べます）"></div>
+      <div class="chips" id="gameChips" aria-label="タイトルで絞り込む"></div>
+      <div class="row2">
+        <div class="chips small" id="formChips" aria-label="応募方法で絞り込む"></div>
+        <label class="search"><span class="sr">ショップ名・商品名で探す</span><input id="q" type="search" placeholder="ショップ名・商品名で探す" autocomplete="off"></label>
+      </div>
+      <div class="row3">
+        <button type="button" class="btn store-btn" id="storeBtn" aria-haspopup="dialog">表示設定<span id="storeCount"></span></button>
+        <label class="hide-applied"><input type="checkbox" id="hideApplied"> 応募済みにしたものを隠す</label>
+      </div>
+    </div>
+  </div>
+
+  <div id="list" class="list">
+    <!--PRERENDER-->
+  </div>
+</main>
+
+<footer class="foot">
+  <p>掲載情報は各ショップの公式ページと告知から自動で集めています。応募前に必ずリンク先で条件と期間を確認してください。</p>
+  <nav>
+    <a href="about.html">このサイトについて</a>
+    <a href="about.html#sources">情報源と巡回状況</a>
+    <a href="feed.xml">新着RSS</a>
+    <a id="contactLink" href="about.html#contact">情報提供</a>
+  </nav>
+  <p class="copy">© {{OPERATOR}}</p>
+</footer>
+
+<div class="sheet" id="storeSheet" hidden>
+  <div class="sheet-backdrop" data-close></div>
+  <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <header class="sheet-head">
+      <h2 id="sheetTitle">表示設定</h2>
+      <button type="button" class="sheet-x" data-close aria-label="閉じる">閉じる</button>
+    </header>
+    <p class="sheet-note">チェックを外したタイトル・店舗の抽選は一覧に出なくなります。設定はこの端末に保存され、新しく追加されたものは最初から表示されます。</p>
+    <div class="sheet-scroll">
+    <h3 class="sheet-h">タイトル<span id="gameSel"></span></h3>
+    <div class="game-grid" id="gameList"></div>
+    <h3 class="sheet-h">店舗<span id="storeSelH"></span></h3>
+    <div class="sheet-tools">
+      <button type="button" class="btn" id="storeAll">すべて選ぶ</button>
+      <button type="button" class="btn" id="storeNone">すべて外す</button>
+      <label class="search"><span class="sr">店舗名で探す</span><input id="storeQ" type="search" placeholder="店舗名で探す" autocomplete="off"></label>
+    </div>
+    <div class="sheet-list" id="storeList"></div>
+    <h3 class="sheet-h">ほかの端末に移す</h3>
+    <p class="sheet-note">いまの設定（エリア・タイトル・店舗）をリンクにします。スマホとPCで同じ設定にしたい時や、友達に同じ絞り込みを送りたい時に。応募済みの記録は入りません。</p>
+    <div class="sheet-tools">
+      <button type="button" class="btn" id="cfgCopy">設定リンクをコピー</button>
+      <input class="cfg-url" id="cfgUrl" type="text" readonly hidden aria-label="設定リンク">
+    </div>
+    </div>
+    <footer class="sheet-foot">
+      <span id="storeSel"></span>
+      <button type="button" class="btn primary" data-close>この設定で表示する</button>
+    </footer>
+  </section>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<template id="ticketTpl">
+  <article class="ticket">
+    <div class="stub">
+      <span class="stub-lead"></span>
+      <span class="stub-num"></span>
+      <span class="stub-unit"></span>
+      <span class="stub-time"></span>
+    </div>
+    <div class="body">
+      <header>
+        <h3 class="store"></h3>
+        <p class="product"><span class="game"></span><span class="form"></span><span class="pref"></span><span class="name"></span></p>
+      </header>
+      <dl class="dates"></dl>
+      <ul class="conds"></ul>
+      <div class="actions">
+        <a class="btn primary apply" target="_blank" rel="noopener nofollow">応募ページを開く</a>
+        <div class="sub">
+          <button class="btn ghost cal" type="button">カレンダーに追加</button>
+          <a class="btn ghost share" target="_blank" rel="noopener">Xで共有</a>
+          <label class="applied"><input type="checkbox"> 応募済み</label>
+        </div>
+      </div>
+    </div>
+  </article>
+</template>
+
+<script>window.__DATA__ = /*DATA*/null;</script>
+<script src="app.js" defer></script>
+</body>
+</html>

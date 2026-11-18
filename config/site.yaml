@@ -1,0 +1,9 @@
+# サイトの基本設定。公開前に url と operator を自分のものに書き換えてください。
+name: 抽選レーダー
+tagline: トレカの抽選、いま応募できるものだけ。
+description: ポケカ・ワンピースカードなどトレカの抽選販売情報を、ポケモンセンターオンラインや各ショップの公式ページから自動で集めて締切順に並べています。
+url: https://kou0728.github.io/chusen-radar/   # 公開URL（末尾スラッシュあり）
+operator: 抽選レーダー運営                      # 運営者表記
+contact_url: ""                                  # 情報提供・お問い合わせ（Googleフォーム等のURL）
+x_account: ""                                    # 運営Xアカウント（@なし）
+amazon_tag: ""                                   # AmazonアソシエイトのトラッキングID（任意）

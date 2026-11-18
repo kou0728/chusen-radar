@@ -1,0 +1,71 @@
+# タイトル判定用の辞書。新しい弾が出たら products に追記するだけで自動分類されます。
+games:
+  pokemon:
+    label: ポケカ
+    match: [ポケモンカード, ポケカ, Pokémon Card, ポケモンセンター]
+    products: [ハドウシーカー, ニンジャスピナー, ストームエメラルダ, アビスアイ, 30th CELEBRATION, MEGAドリーム, インフェルノX, スタートデッキ100, ブラックボルト, ホワイトフレア]
+  onepiece:
+    label: ワンピース
+    match: [ONE PIECEカード, ワンピースカード, ワンピカード, ONEPIECEカード, ワンピカ, "OP-1", "OP-2"]
+    products: [神の支配, 世界最強の戦士, 決戦の刻, 神の島の冒険, 蒼海の七傑, 受け継がれる意志, ヒロインズエディション2, ヒロインズ, 4th Anniversary, プレミアムカードコレクション]
+  yugioh:
+    label: 遊戯王
+    match: [遊戯王, 遊☆戯☆王, 遊戯王OCG, ラッシュデュエル, コナミスタイル, デュエルセット]
+    products: [ORIGINAL ARTWORK DUEL SET, QUARTER CENTURY, デュエルセット WCS2026]
+  duelmasters:
+    label: デュエマ
+    match: [デュエル・マスターズ, デュエマ, DMRP, DMEX, DMBD]
+    products: []
+  dragonball:
+    label: ドラゴンボール
+    match: [ドラゴンボールスーパーカードゲーム, フュージョンワールド, FUSION WORLD, DBFW, ドラゴンボールヒーローズ]
+    products: []
+  unionarena:
+    label: ユニオンアリーナ
+    match: [ユニオンアリーナ, UNION ARENA, ユニアリ]
+    products: []
+  gundam:
+    label: ガンダム
+    match: [ガンダムカードゲーム, GUNDAM CARD GAME, GCG]
+    products: [Freedom Ascension, Freedom Acsension, Phantom Aria, 1st Anniversary Set, GD05, GD06, GD07, Eternal Nexus]
+  digimon:
+    label: デジモン
+    match: [デジモンカードゲーム, デジモンカード, デジカ, DIGIMON CARD GAME]
+    products: []
+  hololive:
+    label: ホロカ
+    match: [ホロライブカード, hololive OFFICIAL CARD GAME, ホロカ]
+    products: []
+  weiss:
+    label: ヴァイス
+    match: [ヴァイスシュヴァルツ, ヴァイス・シュヴァルツ, Weiß Schwarz]
+    products: []
+  vanguard:
+    label: ヴァンガード
+    match: [カードファイト!! ヴァンガード, ヴァンガード, VANGUARD]
+    products: []
+  battlespirits:
+    label: バトスピ
+    match: [バトルスピリッツ, バトスピ]
+    products: []
+  shadowverse:
+    label: シャドバ
+    match: [シャドウバース エボルヴ, Shadowverse EVOLVE, シャドバエボルヴ]
+    products: []
+  wixoss:
+    label: ウィクロス
+    match: [WIXOSS, ウィクロス]
+    products: []
+  lorcana:
+    label: ロルカナ
+    match: [ロルカナ, Lorcana]
+    products: []
+  mtg:
+    label: MTG
+    match: [マジック：ザ・ギャザリング, "マジック:ザ・ギャザリング", MTG, "Magic: The Gathering"]
+    products: []
+
+# 抽選ページとみなすキーワード（どれか1つ必須）
+lottery_words: [抽選, 応募, エントリー, 招待リクエスト, 予約抽選]
+# 除外キーワード（当選者発表のみ・終了告知など）
+exclude_words: [抽選結果のお知らせ, 当選者の発表は終了, 受付は終了いたしました, 参加抽選, 観覧抽選, 観戦, 入場抽選, チケット, リポストした方の中から, プレゼントキャンペーン]

@@ -1,0 +1,62 @@
+name: 抽選情報を更新して公開
+
+on:
+  schedule:
+    - cron: "7,37 * * * *"   # 30分おき（GitHubの混雑で数分遅れることがあります）
+  push:
+    branches: [main]
+    paths: ["config/**", "web/**", "collector/**"]
+  workflow_dispatch:          # Actions画面の「Run workflow」から手動実行
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: 準備
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: テスト
+        run: python -m pytest -q tests
+
+      - name: 公式ページを巡回してサイトを作る
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python -m collector.main
+
+      - name: 巡回結果を保存
+        run: |
+          git config user.name "chusen-radar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/state.json
+          git diff --cached --quiet || git commit -m "抽選情報を更新 $(TZ=Asia/Tokyo date '+%m/%d %H:%M')"
+          git push || (git pull --rebase && git push)
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
