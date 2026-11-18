@@ -41,10 +41,8 @@
     <p>掲載をやめてほしいショップの方は、下の連絡先からお知らせください。すぐに巡回対象から外します。</p>
 
     <h2 id="sources">情報源と巡回状況</h2>
-    <table class="src-table">
-      <thead><tr><th>情報源</th><th>最終確認</th><th>状態</th></tr></thead>
-      <tbody id="srcRows"><tr><td colspan="3">巡回が始まると表示されます。</td></tr></tbody>
-    </table>
+    <p>30分おきに自動で見に行っているところと、自動では取れないため手で登録しているお店を分けて載せています。</p>
+    <div id="srcSections"><p>巡回が始まると表示されます。</p></div>
 
     <h2 id="contact">情報提供・お問い合わせ</h2>
     <p id="contactText">抽選の情報提供・掲載停止のご依頼は、運営のXアカウントまでお寄せください。</p>
@@ -60,19 +58,51 @@ window.__DATA__ = /*DATA*/null;
   var ct = document.getElementById("contactText");
   if (site.contact_url) { ct.innerHTML = '抽選の情報提供・掲載停止のご依頼は<a></a>からお寄せください。'; var a = ct.querySelector("a"); a.href = site.contact_url; a.textContent = "こちらのフォーム"; }
   else if (site.x_account) { ct.innerHTML = '抽選の情報提供・掲載停止のご依頼は<a></a>までお寄せください。'; var b = ct.querySelector("a"); b.href = "https://x.com/" + site.x_account; b.textContent = "@" + site.x_account; }
-  var rows = (data.sources || []);
-  if (!rows.length) return;
-  var tb = document.getElementById("srcRows"); tb.textContent = "";
-  rows.forEach(function (s) {
-    var tr = document.createElement("tr");
-    var td1 = document.createElement("td"), a = document.createElement("a"); a.href = s.url; a.textContent = s.name; a.rel = "nofollow noopener"; td1.append(a);
-    var td2 = document.createElement("td"); if (s.checked) { var t = new Date(s.checked); td2.textContent = (t.getMonth() + 1) + "/" + t.getDate() + " " + String(t.getHours()).padStart(2, "0") + ":" + String(t.getMinutes()).padStart(2, "0"); }
-    var td3 = document.createElement("td");
-    if (s.ok === true) { td3.className = "ok"; td3.textContent = "取得できています" + (s.found != null ? "（" + s.found + "件）" : ""); }
-    else if (s.ok === false) { td3.className = "ng"; td3.textContent = "取得できませんでした：" + (s.note || ""); }
-    else { td3.className = "skip"; td3.textContent = s.note || "停止中"; }
-    tr.append(td1, td2, td3); tb.append(tr);
+  var box = document.getElementById("srcSections");
+  var src = data.sources || [];
+  if (!src.length) return;
+  box.textContent = "";
+  function fmt(iso) { if (!iso) return ""; var t = new Date(iso); return (t.getMonth() + 1) + "/" + t.getDate() + " " + String(t.getHours()).padStart(2, "0") + ":" + String(t.getMinutes()).padStart(2, "0"); }
+  function section(title, note, list, withStatus) {
+    if (!list.length) return;
+    var h = document.createElement("h3"); h.className = "src-h"; h.textContent = title + "（" + list.length + "）"; box.append(h);
+    if (note) { var p = document.createElement("p"); p.className = "src-note"; p.textContent = note; box.append(p); }
+    var tb = document.createElement("table"); tb.className = "src-table";
+    list.forEach(function (s) {
+      var tr = document.createElement("tr");
+      var td1 = document.createElement("td");
+      if (s.url) { var a = document.createElement("a"); a.href = s.url; a.textContent = s.name; a.rel = "nofollow noopener"; td1.append(a); } else td1.textContent = s.name;
+      if (s.sub) { var sm = document.createElement("small"); sm.textContent = "　" + s.sub; td1.append(sm); }
+      tr.append(td1);
+      if (withStatus) {
+        var td2 = document.createElement("td"); td2.textContent = fmt(s.checked);
+        var td3 = document.createElement("td");
+        if (s.ok === true) { td3.className = "ok"; td3.textContent = "OK"; }
+        else if (s.ok === false) { td3.className = "ng"; td3.textContent = "取得できず"; }
+        else { td3.className = "skip"; td3.textContent = "未確認"; }
+        tr.append(td2, td3);
+      }
+      tb.append(tr);
+    });
+    box.append(tb);
+  }
+  section("自動で抽選を読み取っている", "公式ページに抽選が出ると、自動で一覧に載ります。", src.filter(function (s) { return s.kind === "auto"; }), true);
+  section("更新だけ見張っている", "抽選の中身までは読まず、ページが変わったことだけを記録します。", src.filter(function (s) { return s.kind === "watch"; }), true);
+  // 手動で登録しているお店（掲載中の抽選から集計）
+  var areaLabel = {}; (data.areas || []).forEach(function (a) { areaLabel[a.id] = a.label; });
+  var autoNames = src.filter(function (s) { return s.kind === "auto" || s.kind === "watch"; }).map(function (s) { return s.name; });
+  var seen = {}, manual = [];
+  (data.items || []).forEach(function (it) {
+    if ((it.origin !== "manual" && it.origin !== "form") || seen[it.store]) return;
+    if (autoNames.some(function (n) { return it.store.indexOf(n) === 0; })) return; // 自動で巡回しているお店は除く
+    seen[it.store] = 1;
+    manual.push({ name: it.store, url: "", sub: it.pref ? it.pref.replace(/[都府県]$/, "") : (areaLabel[it.area] || ""), area: it.area });
   });
+  var order = (data.areas || []).map(function (a) { return a.id; });
+  manual.sort(function (a, b) { return order.indexOf(a.area) - order.indexOf(b.area) || a.name.localeCompare(b.name, "ja"); });
+  section("手動で登録しているお店", "自動では取れないため、運営や情報提供フォームから登録しています。次の抽選も、見つけたら登録が必要です。", manual, false);
+  section("Xを読む予定のお店", "X APIを設定すると、お店の告知ポストから自動で拾えるようになります。いまは止まっています。", src.filter(function (s) { return s.kind === "x"; }).map(function (s) { return { name: s.name, url: s.url, sub: s.pref ? s.pref.replace(/[都府県]$/, "") : "" }; }), false);
+  section("止めているところ", "ページが見つからない、またはアクセスを断られたため止めています。", src.filter(function (s) { return s.kind === "off"; }), false);
 })();
 </script>
 </body>

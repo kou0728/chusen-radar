@@ -54,7 +54,7 @@ def write_site(state: dict, kw: Keywords, now: datetime):
     site = _site()
     items = sorted(state["items"].values(), key=_sort_key)
     games = {gid: g["label"] for gid, g in kw.games.items()}
-    sources = [{"id": k, **v} for k, v in state.get("sources", {}).items()]
+    sources = _sources(state)
     payload = {"updated": state.get("updated"), "games": games, "areas": areas.labels(), "items": items, "sources": sources,
                "site": {k: site.get(k) for k in ("name", "url", "x_account", "contact_url", "amazon_tag", "form_endpoint")}}
 
@@ -85,6 +85,20 @@ def write_site(state: dict, kw: Keywords, now: datetime):
     _feed(items, site, now)
     _sitemap(site, now)
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {site['url']}sitemap.xml\n", encoding="utf-8")
+
+
+def _sources(state: dict) -> list[dict]:
+    """巡回先を「自動で読む／更新だけ見張る／X／止めている」に分けて、最新の巡回結果を添える。"""
+    cfg = yaml.safe_load((ROOT / "config" / "sources.yaml").read_text(encoding="utf-8"))["sources"]
+    st = state.get("sources", {})
+    out = []
+    for s in cfg:
+        kind = "off" if not s.get("enabled", True) else {"page": "auto", "watch": "watch", "x_user": "x"}.get(s["type"], "auto")
+        url = s.get("url") or (f"https://x.com/{s['account']}" if s.get("account") else "")
+        out.append({"id": s["id"], "name": s["name"], "url": url, "kind": kind, "pref": s.get("pref"), **{k: v for k, v in st.get(s["id"], {}).items() if k not in ("name", "url")}})
+    if "form" in st:
+        out.append({"id": "form", "name": st["form"]["name"], "url": "", "kind": "auto", **{k: v for k, v in st["form"].items() if k != "name"}})
+    return out
 
 
 def _feed(items: list[dict], site: dict, now: datetime):
