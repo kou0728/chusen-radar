@@ -76,22 +76,6 @@ def test_tournament_entry_is_not_a_sale():
     assert extract(html, src, KW, NOW) == []
 
 
-def test_livepocket_search_and_event():
-    from collector import livepocket
-    hits = livepocket.parse_search((FX / "lp_search.html").read_text())
-    by_id = {h["id"]: h for h in hits}
-    assert by_id["l9z_p"]["pref"] == "東京都" and by_id["l9z_p"]["status"] == "販売中"
-    assert by_id["sd_2-"]["pref"] == "千葉県"
-    assert by_id["xxxx1"]["status"] == "中止"
-    useful = [h for h in hits if KW.is_lottery(h["title"]) and KW.detect_game(h["title"])]
-    assert {h["id"] for h in useful} == {"l9z_p", "sd_2-", "xxxx1"}  # 入場券・無関係イベントは除外
-    ev = livepocket.parse_event((FX / "lp_event.html").read_text(), NOW)
-    assert ev["apply_start"] == "2026-11-14T13:00+09:00" and ev["apply_end"] == "2026-11-23T23:59+09:00"
-    assert ev["announce"] == "2026-11-24T23:59+09:00" and ev["announce_allday"]
-    assert ev["purchase_end"] == "2026-11-28T23:59+09:00"
-    assert ev["venue"] == "CARDWINGS八王子駅前店" and ev["pref"] == "東京都"
-
-
 def test_area_rules():
     from collector import areas
     assert areas.apply({"store": "カードラボ 所沢店", "form": "store"})["area"] == "saitama"

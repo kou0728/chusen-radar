@@ -26,7 +26,6 @@
 |---|---|---|
 | メーカー・公式通販 | ポケモンセンターオンライン、プレミアムバンダイ、コナミスタイル、各タイトルの公式ニュース | ページを読む／更新を検知 |
 | 量販店・通販 | ヨドバシ、イオン、セブンネット、ゲオ、エディオン、ドラスタ | ページを読む |
-| LivePocket（停止中） | キデイランド、TSUTAYA、文教堂、CARDWINGS、トレカラウンジなど各店舗 | 仕組みは入っているが、LivePocketが自動アクセスにbot対策を返すため `enabled: false`。手動登録で補う |
 | ショップのX | カードラボ、晴れる屋2、MINT、ブックオフ各店など | X APIのトークンを入れた時だけ |
 | 手動登録 | アプリ限定・店頭QRの抽選 | `config/manual.yaml` |
 
@@ -55,7 +54,6 @@
 | アプリ限定・店頭QRの抽選を載せる | `config/manual.yaml` に1行足す（書き方はファイル冒頭） |
 | 巡回するショップを増やす | `config/sources.yaml` に URL を足す（Xアカウントなら `pref: 東京都` も書くとエリアが付く） |
 | エリアを増やす（神奈川など） | `config/areas.yaml` に1行足す |
-| LivePocketで探すキーワードを増やす | `config/sources.yaml` の `livepocket` の `keywords` に足す |
 | 新弾が出た | `config/keywords.yaml` の `products` に商品名を足す（自動でまとまる） |
 | 新しいトレカのタイトルを増やす | `config/keywords.yaml` の `games` に1ブロック足す（表示設定にも自動で出る） |
 | 掲載を止めたい抽選 | `manual.yaml` で `hide: true` |

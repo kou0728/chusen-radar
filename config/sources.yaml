@@ -15,29 +15,6 @@ defaults:
   user_agent: "ChusenRadarBot/1.0 (+https://kou0728.github.io/chusen-radar/about.html)"
 
 sources:
-  # --- LivePocket（各ショップの店頭受け取り抽選の応募ページが集まる場所） ---
-  # キーワードで検索 → 抽選ページを開いて受付期間・発表日・店舗の都道府県を読み取ります。
-  - id: livepocket
-    enabled: false   # LivePocketは自動アクセスにbot対策（HTTP 202）を返すため停止中。手動登録で補う
-    name: LivePocket（各ショップの抽選）
-    type: livepocket
-    max_pages: 3        # キーワードごとに何ページ目まで見るか
-    max_details: 60     # 1回の巡回で新しく開く抽選ページの上限
-    keywords:
-      - ポケモンカード
-      - ワンピースカード
-      - 遊戯王
-      - デュエル・マスターズ
-      - ドラゴンボール フュージョンワールド
-      - ユニオンアリーナ
-      - ガンダムカードゲーム
-      - デジモンカード
-      - ホロライブ カード
-      - ヴァイスシュヴァルツ
-      - ヴァンガード
-      - バトルスピリッツ
-      - ロルカナ
-
   # --- 公式・大手通販 ---
   - id: pokemoncenter-lottery
     name: ポケモンセンターオンライン

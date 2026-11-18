@@ -14,7 +14,7 @@ from pathlib import Path
 
 import yaml
 
-from . import areas, dates, fetch, livepocket, notify, publish, xsource
+from . import areas, dates, fetch, notify, publish, xsource
 from .extract import Keywords, Lottery, extract, page_fingerprint
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -92,16 +92,6 @@ def crawl(sources: list[dict], ua: str, kw: Keywords, state: dict, now: datetime
         if not src.get("enabled", True) or src["type"] == "x_user":
             continue
         st = {"name": src["name"], "url": src.get("url", "https://livepocket.jp/"), "checked": dates.iso(now)}
-        if src["type"] == "livepocket":
-            try:
-                lots, lst = livepocket.collect(src, ua, kw, state, now)
-                found += [l.to_dict() for l in lots]
-                st.update(lst)
-            except Exception as e:  # 1サイトの失敗で全体を止めない
-                st.update(ok=False, note=f"想定外のエラー: {e}"[:160])
-                log.exception("LivePocket")
-            state["sources"][src["id"]] = st
-            continue
         try:
             html = fetch.fetch_html(src["url"], ua, render=src.get("render", False))
             fp = page_fingerprint(html)
