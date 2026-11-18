@@ -56,6 +56,9 @@ def fetch_html(url: str, ua: str, render: bool = False, retries: int = 2) -> str
     for i in range(retries + 1):
         try:
             r = _session.get(url, timeout=20, headers={"User-Agent": ua, "Accept-Language": "ja"})
+            if r.status_code == 202:
+                # bot対策の確認ページ。自動アクセスを望んでいないサイトなので、すり抜けずに止める
+                raise FetchError("サイト側のbot対策で自動取得できません（HTTP 202）")
             if r.status_code == 200:
                 r.encoding = r.apparent_encoding if r.encoding in (None, "ISO-8859-1") else r.encoding
                 return r.text
@@ -83,8 +86,12 @@ def _fetch_rendered(url: str, ua: str) -> str:
     ctx = _browser.new_context(user_agent=ua, locale="ja-JP")
     page = ctx.new_page()
     try:
-        page.goto(url, wait_until="networkidle", timeout=45000)
-        page.wait_for_timeout(1500)
+        page.goto(url, wait_until="domcontentloaded", timeout=45000)
+        try:
+            page.wait_for_load_state("networkidle", timeout=15000)
+        except Exception:
+            pass  # 広告などで通信が止まないページは、そのまま読む
+        page.wait_for_timeout(2500)
         return page.content()
     except Exception as e:
         raise FetchError(f"描画に失敗: {e}") from e

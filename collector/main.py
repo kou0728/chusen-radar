@@ -160,7 +160,7 @@ def merge(state: dict, auto: list[dict], manual: list[dict], now: datetime) -> l
     cutoff = now - timedelta(days=KEEP_DAYS)
     for k in [k for k, v in items.items() if v.get("apply_end") and datetime.fromisoformat(v["apply_end"]) < cutoff]:
         del items[k]
-    return [items[i] for i in new_ids]
+    return [items[i] for i in new_ids if i in items]
 
 
 def run(offline: bool = False, now: datetime | None = None) -> int:

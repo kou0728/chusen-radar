@@ -18,6 +18,7 @@ sources:
   # --- LivePocket（各ショップの店頭受け取り抽選の応募ページが集まる場所） ---
   # キーワードで検索 → 抽選ページを開いて受付期間・発表日・店舗の都道府県を読み取ります。
   - id: livepocket
+    enabled: false   # LivePocketは自動アクセスにbot対策（HTTP 202）を返すため停止中。手動登録で補う
     name: LivePocket（各ショップの抽選）
     type: livepocket
     max_pages: 3        # キーワードごとに何ページ目まで見るか
@@ -73,12 +74,14 @@ sources:
     form: web
 
   - id: geo-online-news
+    enabled: false   # 公開後の巡回で取得できなかった（403/404）。正しいURLが分かったら true に
     name: ゲオオンライン
     type: page
     url: https://geo-online.co.jp/news/
     form: web
 
   - id: edion-cp
+    enabled: false   # 公開後の巡回で取得できなかった（403/404）。正しいURLが分かったら true に
     name: エディオン
     type: watch
     url: https://edion-cp.com/
@@ -113,6 +116,7 @@ sources:
     form: web
 
   - id: konamistyle
+    enabled: false   # 公開後の巡回で取得できなかった（403/404）。正しいURLが分かったら true に
     name: コナミスタイル
     type: watch
     url: https://www.konamistyle.jp/
@@ -147,6 +151,7 @@ sources:
     form: web
 
   - id: dbfw-news
+    enabled: false   # 公開後の巡回で取得できなかった（403/404）。正しいURLが分かったら true に
     name: ドラゴンボール フュージョンワールド公式
     type: page
     url: https://www.dbs-cardgame.com/fw/jp/news/
@@ -161,6 +166,7 @@ sources:
     form: web
 
   - id: ws-news
+    enabled: false   # 公開後の巡回で取得できなかった（403/404）。正しいURLが分かったら true に
     name: ヴァイスシュヴァルツ公式
     type: page
     url: https://ws-tcg.com/news/
