@@ -1456,7 +1456,7 @@
   "pokemoncenter-lottery": "03c6f64207395196bf281237722fa1be786ddb8b",
   "aeon-style-online": "05ece7e50454b0476a7e18510b4a08780ba997ca",
   "seven-net": "968f217723e22b2ee88233c303c8376872dd0972",
-  "dorasuta": "219af93a1e769ad0dbc02aa4eb2545b72070676a",
+  "dorasuta": "de643203e19fe20c455f4f18018ffaf304e31ca1",
   "onepiece-official-news": "8fed84e61927c90a9f818db0676e27daa024856f",
   "pokemon-card-official-news": "fef3563f569982a42612e3b5c95443e789b73662",
   "onepiece-official-shop": "8595352da96a91b519a366e1b73390aa4b023a9e",
@@ -1472,227 +1472,228 @@
   "pokemoncenter-lottery": {
    "name": "ポケモンセンターオンライン",
    "url": "https://www.pokemoncenter-online.com/lottery/apply.html",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "yodobashi-limited": {
    "name": "ヨドバシ・ドット・コム",
    "url": "https://limited.yodobashi.com/entry/shared/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": false,
    "note": "HTTPSConnectionPool(host='limited.yodobashi.com', port=443): Read timed out. (read timeout=20)"
   },
   "aeon-style-online": {
    "name": "イオンスタイルオンライン",
    "url": "https://aeonretail.com/Page/k-lottery_pokemon_com.aspx",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "seven-net": {
    "name": "セブンネットショッピング",
    "url": "https://7net.omni7.jp/general/027016/fair-hobby-pokemoncardgameo.html",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "dorasuta": {
    "name": "ドラゴンスター",
    "url": "https://dorasuta.membercard.jp/lottery",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
+   "changed": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "onepiece-official-news": {
    "name": "ONE PIECEカードゲーム公式",
    "url": "https://www.onepiece-cardgame.com/news/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "pokemon-card-official-news": {
    "name": "ポケモンカードゲーム公式",
    "url": "https://www.pokemon-card.com/info/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": true
   },
   "onepiece-official-shop": {
    "name": "ONE PIECEカードゲーム公式",
    "url": "https://www.onepiece-cardgame.com/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": true
   },
   "yugioh-official-info": {
    "name": "遊戯王OCG公式",
    "url": "https://www.yugioh-card.com/japan/information/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 1,
    "ok": true
   },
   "duelmasters-official": {
    "name": "デュエル・マスターズ公式",
    "url": "https://dm.takaratomy.co.jp/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": true
   },
   "digimon-official-news": {
    "name": "デジモンカードゲーム公式",
    "url": "https://digimoncard.com/news/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "gundam-gcg-news": {
    "name": "ガンダムカードゲーム公式",
    "url": "https://www.gundam-gcg.com/jp/news/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "unionarena-news": {
    "name": "ユニオンアリーナ公式",
    "url": "https://www.unionarena-tcg.com/jp/news/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "hololive-ocg-news": {
    "name": "ホロカ公式",
    "url": "https://hololive-official-cardgame.com/news/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "found": 0,
    "ok": true
   },
   "p-bandai-top": {
    "name": "プレミアムバンダイ",
    "url": "https://p-bandai.jp/",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": true
   },
   "x-jtc-kichijoji": {
    "name": "Japan TCG Center 吉祥寺駅北口店",
    "url": "https://x.com/JTC_kichijoji",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-mmk-matsudo": {
    "name": "桃太郎王国 松戸五香店",
    "url": "https://x.com/mmk_matsudogoko",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-bunkyodo-urayasu": {
    "name": "文教堂 浦安西友店",
    "url": "https://x.com/bunurayasu_TCG",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-tsutaya-kitasenju": {
    "name": "TSUTAYA Trading Card 北千住",
    "url": "https://x.com/TSUTAYA_Card_ks",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-cardbox-ikebukuro": {
    "name": "カードボックス 池袋店",
    "url": "https://x.com/cbikebukuro",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-cardlabo-tsudanuma": {
    "name": "カードラボ 津田沼店",
    "url": "https://x.com/Numa_labo27",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-cardlabo-tokorozawa": {
    "name": "カードラボ 所沢店",
    "url": "https://x.com/tokorozawa_clab",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-ds-ecommerce": {
    "name": "ドラゴンスター通販",
    "url": "https://x.com/ds_ecommerce",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-surugaya": {
    "name": "駿河屋 通販",
    "url": "https://x.com/surugaya_toreka",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-yellow-sub": {
    "name": "イエローサブマリン",
    "url": "https://x.com/YS_INFO",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-bic-akiba": {
    "name": "ビックカメラ AKIBA店",
    "url": "https://x.com/bic_akiba",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-cardbox": {
    "name": "カードボックス 日本橋店",
    "url": "https://x.com/Cardbox_Japan",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-pcg-lounge": {
    "name": "ポケモンカードラウンジ",
    "url": "https://x.com/PCGL_Shibuya",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-hareruya2": {
    "name": "晴れる屋2",
    "url": "https://x.com/hareruya2pokeca",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-toreca-lounge": {
    "name": "トレカラウンジ 秋葉原本店",
    "url": "https://x.com/torecalounge",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-cardlabo-ikebukuro": {
    "name": "カードラボ 池袋店",
    "url": "https://x.com/ikebukuro_labo",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-mintgames-ikb": {
    "name": "MINT GAMES 池袋店",
    "url": "https://x.com/MintGames_IKB",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   },
   "x-bookoff-akb": {
    "name": "ブックオフ 秋葉原駅前店",
    "url": "https://x.com/bookoffakbT",
-   "checked": "2026-11-18T12:21+09:00",
+   "checked": "2026-11-18T12:31+09:00",
    "ok": null,
    "note": "X APIトークン未設定のためスキップ"
   }
