@@ -140,7 +140,20 @@ Authorization: Bearer <管理トークン>
 
 自動復旧（`HUB_AUTO_RECOVER=1`）は、Portal が5分切れていて見張り役がつながっている時だけ、1時間に3回までにしてあります。
 
-## 7. 困ったとき
+## 7. 台数を増やす前の負荷試験
+
+本番の端末を切り替える前に、VPS の上で偽の Portal をつないで測ります（本番の台帳には触りません）。
+
+```bash
+cd /opt/mobilerun-hub
+ulimit -n 4096
+.venv/bin/python -m mobilerun_hub.loadtest --devices 200 --shot-kb 1500 --parallel 20
+```
+
+一斉再接続にかかる時間、軽い命令とスクショの応答時間、メモリを出します。
+スクショの同時取得数（`--parallel`）を実際の使い方に合わせて変え、メモリが VPS の半分を超えるなら上のプランを考えます。
+
+## 8. 困ったとき
 
 | 症状 | 確認すること |
 |---|---|
