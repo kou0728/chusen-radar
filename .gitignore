@@ -2,3 +2,10 @@ site/
 __pycache__/
 .pytest_cache/
 *.pyc
+.venv/
+# Android端末まわり（母艦だけで使う記録）
+android_agent/.state.json
+android_agent/.found.json
+android_agent/.run.lock
+android_agent/PAUSE
+android_agent/shots/

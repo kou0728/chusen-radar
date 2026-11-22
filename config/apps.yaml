@@ -1,0 +1,108 @@
+# Android端末で「公式アプリ限定」の抽選を読むための設定（レシピ）。
+# 端末と母艦の用意は android_agent/README.md、費用は docs/paid-plan.md を見てください。
+#
+# 1アプリ = 1ブロック。enabled: true にしたものだけ読みます（最初は全部 false）。
+# 新しく足すときの手順:
+#   1. 端末にアプリを入れてログインまで済ませる（scrcpy で遠隔操作できます）
+#   2. アプリを開いた状態で  python -m android_agent current  → package を書く
+#   3. お知らせ画面まで手で進めながら  python -m android_agent screen  → 押す文字を steps に書く
+#   4. python -m android_agent try <id>  で読めるか確認 → enabled: true
+#
+# steps で使える命令（上から順に実行）:
+#   restart                  アプリを閉じて開き直す（毎回同じ画面から始めるため、最初に置く）
+#   wait: 3                  3秒待つ
+#   wait_for: "お知らせ"       この文字が出るまで待つ（最大15秒。optional: true で出なくても続ける）
+#   dismiss: [閉じる, あとで]   ポップアップに出ていたら押す（無ければ何もしない）
+#   tap: "お知らせ"            この文字のところを押す（{id: …} / {xy: [540, 1800]} / optional: true も可）
+#   scroll: down             続きを表示（{dir: down, times: 3} も可）
+#   read                     いまの画面の文字を読む
+#   read_pages: 3            読む→スクロール→読む…を最大3画面分
+#   each: {match: [抽選], max: 5, pages: 2}   一覧で「抽選」を含む項目を上から順に開いて読み、戻る
+#   open_url: "https://…"     URLをアプリで開く（お知らせページに直接行けるアプリ向け）
+#   back / home              戻る / ホームへ
+# 安全のため「応募する」「購入」「申し込む」などの文字があるボタンは押しません（読むだけ）。
+#
+# 下の steps は「お知らせ画面に抽選が載る」アプリでよくある形の下書きです。
+# 実際のボタンの文字はアプリごとに違うので、必ず screen で確かめてから直してください。
+
+defaults:
+  every_minutes: 60          # 1つのアプリを何分おきに読むか（短くしすぎない。お店のサーバーとアカウントのため）
+  quiet_hours: [1, 6]        # 1時〜6時は読まない
+  vision: false              # true で、画像だけの告知を Claude API で読む（有料・任意。docs/paid-plan.md）
+  vision_daily_limit: 20     # 画像読み取りの1日の上限枚数（料金の上限になる）
+  vision_model: claude-opus-5-5   # claude-haiku-5-5 にすると料金は約1/40（読み取りの精度は要確認）
+
+apps:
+  - id: yamada
+    enabled: false
+    store: ヤマダデンキ
+    name: ヤマダデジタル会員アプリ
+    package: ""              # 例: python -m android_agent current で出た package
+    url: ""                  # サイトの「応募先」リンク（公式のアプリ案内ページなど。無ければ空でOK）
+    steps:
+      - restart
+      - dismiss: [閉じる, あとで, スキップ]
+      - tap: お知らせ
+      - read_pages: 3
+
+  - id: kojima
+    enabled: false
+    store: コジマ
+    name: コジマ公式アプリ
+    package: ""
+    url: ""
+    steps:
+      - restart
+      - dismiss: [閉じる, あとで, スキップ]
+      - tap: お知らせ
+      - each: {match: [抽選], max: 3, pages: 2}
+
+  - id: aeon-kyushu
+    enabled: false
+    store: イオン九州
+    name: iAEON
+    area: other              # 地域のお店のアプリ（全国の通販ではない）
+    package: ""
+    url: ""
+    steps:
+      - restart
+      - dismiss: [閉じる, あとで, スキップ]
+      - tap: お知らせ
+      - read_pages: 3
+
+  - id: heiwado
+    enabled: false
+    store: 平和堂
+    name: 平和堂アプリ
+    area: other
+    package: ""
+    url: ""
+    steps:
+      - restart
+      - dismiss: [閉じる, あとで, スキップ]
+      - tap: お知らせ
+      - read_pages: 3
+
+  - id: geo
+    enabled: false
+    store: ゲオ
+    name: ゲオアプリ
+    package: ""
+    url: ""
+    steps:
+      - restart
+      - dismiss: [閉じる, あとで, スキップ]
+      - tap: お知らせ
+      - read_pages: 3
+
+  - id: kidsrepublic
+    enabled: false
+    store: キッズリパブリック
+    name: キッズリパブリック公式アプリ
+    package: ""
+    url: ""
+    steps:
+      - restart
+      - dismiss: [閉じる, あとで, スキップ]
+      - tap: お知らせ
+      - read_pages: 3

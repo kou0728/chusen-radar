@@ -96,6 +96,16 @@ def _sources(state: dict) -> list[dict]:
         kind = "off" if not s.get("enabled", True) else {"page": "auto", "watch": "watch", "x_user": "x"}.get(s["type"], "auto")
         url = s.get("url") or (f"https://x.com/{s['account']}" if s.get("account") else "")
         out.append({"id": s["id"], "name": s["name"], "url": url, "kind": kind, "pref": s.get("pref"), **{k: v for k, v in st.get(s["id"], {}).items() if k not in ("name", "url")}})
+    # Android端末で公式アプリを読んでいるお店（config/apps.yaml で enabled: true のもの）
+    apps_yaml = ROOT / "config" / "apps.yaml"
+    apps = (yaml.safe_load(apps_yaml.read_text(encoding="utf-8")) or {}).get("apps") or [] if apps_yaml.exists() else []
+    for a in apps:
+        if not a.get("enabled"):
+            continue
+        sid = f"app:{a['id']}"
+        info = {k: v for k, v in st.get(sid, {}).items() if k not in ("name", "url")}
+        out.append({"id": sid, "name": a.get("store") or a.get("name") or a["id"], "sub": a.get("name") or "",
+                    "url": a.get("url") or "", "kind": "app", "pref": a.get("pref"), **info})
     if "form" in st:
         out.append({"id": "form", "name": st["form"]["name"], "url": "", "kind": "auto", **{k: v for k, v in st["form"].items() if k != "name"}})
     return out

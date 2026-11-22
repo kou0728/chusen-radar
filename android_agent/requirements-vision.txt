@@ -1,0 +1,3 @@
+# 画像だけの告知を Claude API で読む時だけ（任意・有料）
+anthropic>=2.0
+Pillow>=10.0

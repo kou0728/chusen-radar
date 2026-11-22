@@ -1,0 +1,5 @@
+# 母艦（自宅の常時起動PC）で android_agent を動かすのに必要なもの。adb は別途入れる（README参照）
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5.0
+PyYAML>=6.0

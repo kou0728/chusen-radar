@@ -20,7 +20,10 @@ from .extract import Keywords, Lottery, extract, page_fingerprint
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "config"
 STATE = ROOT / "data" / "state.json"
+APP_FOUND = ROOT / "data" / "app_found.json"  # Android端末（android_agent）が送ってくる、アプリで読んだ抽選
+APP_STALE_HOURS = 8  # これより長く端末から届かなければ「止まっている」と表示する
 KEEP_DAYS = 45  # 受付終了から何日まで掲載を残すか
+LOTTERY_FIELDS = set(Lottery.__dataclass_fields__)
 
 log = logging.getLogger("collector")
 
@@ -85,6 +88,47 @@ def manual_items(kw: Keywords, now: datetime) -> list[dict]:
     return out
 
 
+def _safe_url(url) -> str:
+    url = str(url or "").strip()
+    return url if url.startswith(("https://", "http://")) else ""
+
+
+def app_items(state: dict, now: datetime) -> list[dict]:
+    """Android端末が送ってきた data/app_found.json を読む。無ければ何もしない。"""
+    if not APP_FOUND.exists():
+        return []
+    try:
+        data = json.loads(APP_FOUND.read_text(encoding="utf-8"))
+    except ValueError as e:
+        log.warning("app_found.json が読めません: %s", e)
+        return []
+    updated = data.get("updated")
+    stale = True
+    try:
+        stale = not updated or now - datetime.fromisoformat(updated) > timedelta(hours=APP_STALE_HOURS)
+    except ValueError:
+        pass
+    apps = data.get("apps") or {}
+    for k in [k for k in state["sources"] if k.startswith("app:") and k[4:] not in apps]:
+        del state["sources"][k]  # 端末側で止めたアプリ
+    for aid, st in apps.items():
+        entry = {"name": st.get("name") or aid, "url": _safe_url(st.get("url")), "checked": st.get("checked"),
+                 "ok": st.get("ok"), "found": st.get("found"), "note": st.get("note")}
+        if stale:
+            entry.update(ok=False, note=f"Android端末から{APP_STALE_HOURS}時間以上届いていません（電源・Wi-Fi・USBを確認）")
+        state["sources"][f"app:{aid}"] = {k: v for k, v in entry.items() if v is not None}
+    out = []
+    for d in data.get("items") or []:
+        if not isinstance(d, dict) or not d.get("store") or not d.get("title") or not d.get("apply_end"):
+            continue
+        lot = Lottery(**{k: v for k, v in d.items() if k in LOTTERY_FIELDS})
+        lot.url = _safe_url(lot.url)
+        lot.form = lot.form or "app"
+        lot.origin = "app"
+        out.append(lot.to_dict())
+    return out
+
+
 def crawl(sources: list[dict], ua: str, kw: Keywords, state: dict, now: datetime):
     found: list[dict] = []
     changed: list[dict] = []
@@ -117,7 +161,7 @@ def crawl(sources: list[dict], ua: str, kw: Keywords, state: dict, now: datetime
         state["sources"][src["id"]] = st
     fetch.close()
     xs = [s for s in sources if s["type"] == "x_user" and s.get("enabled", True)]
-    x_lots, x_status = xsource.collect(xs, kw, now)
+    x_lots, x_status = xsource.collect(xs, kw, now, state.setdefault("x", {}))
     found += [l.to_dict() for l in x_lots]
     for sid, st in x_status.items():
         src = next(s for s in xs if s["id"] == sid)
@@ -136,7 +180,7 @@ def merge(state: dict, auto: list[dict], manual: list[dict], now: datetime, form
         if cur is None:
             d["first_seen"] = stamp
             new_ids.append(d["id"])
-        elif cur.get("origin") in ("manual", "form") and d.get("origin") == "auto":
+        elif cur.get("origin") in ("manual", "form") and d.get("origin") in ("auto", "app"):
             cur["last_seen"] = stamp
             continue
         else:
@@ -161,6 +205,7 @@ def run(offline: bool = False, now: datetime | None = None) -> int:
     kw = load_keywords()
     state = load_state()
     auto, changed = ([], []) if offline else crawl(srcs["sources"], ua, kw, state, now)
+    auto += app_items(state, now)
     manual = manual_items(kw, now)
     endpoint = (load_yaml("site.yaml") or {}).get("form_endpoint")
     form_ok = False

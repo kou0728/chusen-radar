@@ -43,6 +43,7 @@ jobs:
       - name: 公式ページを巡回してサイトを作る
         env:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          X_MONTHLY_BUDGET_USD: ${{ vars.X_MONTHLY_BUDGET_USD }}   # X APIの月の上限（ドル）。未設定なら5
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python -m collector.main
 

@@ -87,10 +87,11 @@ window.__DATA__ = /*DATA*/null;
     box.append(tb);
   }
   section("自動で抽選を読み取っている", "公式ページに抽選が出ると、自動で一覧に載ります。", src.filter(function (s) { return s.kind === "auto"; }), true);
+  section("公式アプリを自動で読んでいる", "運営のAndroid端末で公式アプリを開き、抽選のお知らせを読み取っています（応募の操作はしません）。", src.filter(function (s) { return s.kind === "app"; }), true);
   section("更新だけ見張っている", "抽選の中身までは読まず、ページが変わったことだけを記録します。", src.filter(function (s) { return s.kind === "watch"; }), true);
   // 手動で登録しているお店（掲載中の抽選から集計）
   var areaLabel = {}; (data.areas || []).forEach(function (a) { areaLabel[a.id] = a.label; });
-  var autoNames = src.filter(function (s) { return s.kind === "auto" || s.kind === "watch"; }).map(function (s) { return s.name; });
+  var autoNames = src.filter(function (s) { return s.kind === "auto" || s.kind === "watch" || s.kind === "app"; }).map(function (s) { return s.name; });
   var seen = {}, manual = [];
   (data.items || []).forEach(function (it) {
     if ((it.origin !== "manual" && it.origin !== "form") || seen[it.store]) return;
