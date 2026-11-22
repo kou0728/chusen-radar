@@ -1,0 +1,25 @@
+# VPS の /etc/systemd/system/mobilerun-hub.service
+[Unit]
+Description=Mobilerun Portal 中継サーバー
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+User=mobilerun
+Group=mobilerun
+WorkingDirectory=/opt/mobilerun-hub
+EnvironmentFile=/etc/mobilerun-hub.env
+ExecStart=/opt/mobilerun-hub/.venv/bin/python -m mobilerun_hub serve
+# 落ちても3秒後に自動で立ち上がる（Tailscale のIPがまだ無い時も、つくまでやり直す）
+Restart=always
+RestartSec=3
+# 台帳は /var/lib/mobilerun-hub に置く。それ以外には書き込ませない
+StateDirectory=mobilerun-hub
+StateDirectoryMode=0700
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

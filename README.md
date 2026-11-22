@@ -112,6 +112,7 @@ open site/index.html
 ```
 collector/      巡回・抽出・公開ファイル生成（Python）
 android_agent/  自宅のAndroid端末で公式アプリを読む（任意。母艦で動かす）
+mobilerun_hub/  Mobilerun Portal の中継サーバー（ngrok の代わり。VPS で動かす。mobilerun_hub/README.md）
 config/         巡回先・手動登録・アプリのレシピ・キーワード・サイト設定
 web/            サイトの見た目（HTML/CSS/JS）
 data/           巡回結果の保存（自動で更新される。app_found.json はAndroid端末から届く）

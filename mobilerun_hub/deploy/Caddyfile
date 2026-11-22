@@ -1,0 +1,12 @@
+# VPS の /etc/caddy/Caddyfile。portal.example.jp を自分のドメインに置き換えてください。
+# 証明書（HTTPS）は Caddy が自動で取って更新します。
+# インターネットに出すのは「端末の受け口」だけ。管理画面と管理APIは Tailscale 側だけで開きます。
+portal.example.jp {
+	@public path /join /join/* /guardian/* /healthz /.well-known/assetlinks.json
+	handle @public {
+		reverse_proxy 127.0.0.1:8700
+	}
+	handle {
+		respond 404
+	}
+}
